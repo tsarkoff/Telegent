@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "Telegent": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "Moreatica": "Value",
+        "Стратегия ICO": "Value",
+        "Telegent Test Supergroup": "Value",
+        "Qurrex General Chat": "Value",
+        "FE DEV - Qurrex Site": "Value"
+      }
+    }
+  }
+}

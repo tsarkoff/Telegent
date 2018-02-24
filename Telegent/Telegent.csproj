@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject>Telegent.Program</StartupObject>
+    <Authors>Vladimir Tsarkov</Authors>
+    <Company>KRYMTEC Ltd.</Company>
+    <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="attachments\Thumbs.db" />
+    <None Remove="groups.txt" />
+    <None Remove="members.txt" />
+    <None Remove="message.txt" />
+    <None Remove="session.dat" />
+    <None Remove="small.jpg" />
+    <None Remove="Telegent.png" />
+    <None Remove="Thumbs.db" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Ionic.ZLib">
+      <HintPath>..\pkgs\Ionic.ZLib.dll</HintPath>
+    </Reference>
+    <Reference Include="TeleSharp.TL">
+      <HintPath>..\pkgs\TeleSharp.TL.dll</HintPath>
+    </Reference>
+    <Reference Include="TLSharp.Core">
+      <HintPath>..\pkgs\TLSharp.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
