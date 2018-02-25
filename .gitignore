@@ -6,3 +6,8 @@
 /Telegent/bin/Release/netcoreapp2.0
 /.vs/Telegent/v15
 /.vs
+/Telegent/bin/Debug/netcoreapp2.0
+/Telegent/session.dat
+/Telegent/message.txt
+/Telegent/members.txt
+/Telegent/groups.txt

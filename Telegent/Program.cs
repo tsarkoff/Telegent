@@ -10,7 +10,7 @@ using TeleSharp.TL.Channels;
 using TLSharp.Core.Utils;
 
 using Telehelp;
-
+using System.Threading;
 
 namespace Telegent
 {
@@ -23,6 +23,7 @@ namespace Telegent
         // Main
         static void Main(string[] args)
         {
+            TLAPIData.SetConsole();
             Logger.Msg("TL Agent started.\n");
 
             bool isException = false;
@@ -133,9 +134,20 @@ namespace Telegent
 
             if (0 == hash && MembersLogAndSave(ch.Users, ufile, gname)) return ch.Users;
 
-            TLChannelParticipants ps = client.GetChannelParticipants(gid, hash).GetAwaiter().GetResult();
-            MembersLogAndSave(ps.Users, ufile, gname);
-            return ps.Users;
+            int offset = 0;
+            TLChannelParticipants ps = null;
+            TLVector<TLAbsUser> users = new TLVector<TLAbsUser>();
+
+            do
+            {
+                ps = client.GetChannelParticipants(gid, hash, offset, 5000).GetAwaiter().GetResult();
+                foreach (TLUser u in ps.Users)
+                    users.Add(u);
+                offset += 200;
+            } while (offset <= ps.Count);
+
+            MembersLogAndSave(users, ufile, gname);
+            return users;
         }
         // Return active / inactive members list from specified group Name 
         private static TLVector<TLAbsUser> GetGroupActiveMembers(string gname, bool active, string ufile = null)
@@ -162,22 +174,22 @@ namespace Telegent
         {
             try
             {
-                var ms = client.GetUserHistoryAsync(user.Id).GetAwaiter().GetResult();
-                if (typeof(TLMessagesSlice) == ms.GetType())
+                var msg = client.GetUserHistoryAsync(user.Id).GetAwaiter().GetResult();
+                if (typeof(TLMessagesSlice) == msg.GetType())
                 {
-                    ms = (TLMessagesSlice)ms;
-                    if (null == ms || 0 == (ms as TLMessagesSlice).Messages.Count) return false;
-                } else if (typeof(TLMessages) == ms.GetType())
+                    msg = (TLMessagesSlice)msg;
+                    if (null == msg || 0 == (msg as TLMessagesSlice).Messages.Count) return false;
+                } else if (typeof(TLMessages) == msg.GetType())
                 {
-                    ms = (TLMessages)ms;
-                    if (null == ms || 0 == (ms as TLMessages).Messages.Count) return false;
+                    msg = (TLMessages)msg;
+                    if (null == msg || 0 == (msg as TLMessages).Messages.Count) return false;
                 }
                 else return false;
                
                 Logger.Succ("Active user:{0} found.", new string[] { userTitle(user) });
             } catch (Exception ex)
             {
-                return !Logger.Err("Active user:{0} check failed: {1}.", new string[] { userTitle(user), ex.Message });
+                return !Logger.Warn("Active user:{0} check failed: {1}.", new string[] { userTitle(user), ex.Message });
             }
 
             return true;

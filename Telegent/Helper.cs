@@ -195,6 +195,19 @@ namespace Telehelp
     // config file and Telegram API login data class
     public class TLAPIData
     {
+        public static void SetConsole()
+        {
+            TextWriter tmp = Console.Out;
+            StreamWriter sw = new StreamWriter(new MemoryStream());
+            Console.SetOut(sw);
+            Console.BufferHeight = 5100;
+            Console.WindowHeight = Console.LargestWindowHeight - 10;
+            Console.WindowWidth = 100;
+            Console.WindowTop = 0;
+            Console.SetOut(tmp);
+            sw.Close();
+        }
+
         private static void SetAll(int _apiId = 123456, string _apiHash = "abcdef123456abcdef123456abcdef12", string _phoneNo = "71234567890", string _nick = "Telegent", string _passw = "secret")
         {
             apiId = _apiId; apiHash = _apiHash; phoneNo = _phoneNo; nick = _nick; passw = _passw; configFile = @"telegent.conf"; attachmentsFolder = @"attachments";

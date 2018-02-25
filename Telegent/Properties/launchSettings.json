@@ -2,6 +2,7 @@
   "profiles": {
     "Telegent": {
       "commandName": "Project",
+      "commandLineArgs": "gm \"Qurrex General Chat\" members.txt",
       "environmentVariables": {
         "Moreatica": "Value",
         "Стратегия ICO": "Value",
