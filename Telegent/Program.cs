@@ -143,8 +143,8 @@ namespace Telegent
                 ps = client.GetChannelParticipants(gid, hash, offset, 5000).GetAwaiter().GetResult();
                 foreach (TLUser u in ps.Users)
                     users.Add(u);
-                offset += 200;
-            } while (offset <= ps.Count);
+                offset += ps.Users.Count;
+            } while (users.Count < ps.Count && 0 != ps.Users.Count);
 
             MembersLogAndSave(users, ufile, gname);
             return users;
